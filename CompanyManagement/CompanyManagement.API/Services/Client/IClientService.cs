@@ -1,8 +1,8 @@
 ﻿using CompanyManagement.API.Models;
 
-namespace CompanyManagement.API.Repositories.Client
+namespace CompanyManagement.API.Services.Client
 {
-    public interface IClientRepository
+    public interface IClientService
     {
         /// <summary>
         /// Create multiple client

@@ -1,6 +1,4 @@
 ﻿using CompanyManagement.API.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CompanyManagement.API.Repositories.Client
 {
@@ -13,6 +11,7 @@ namespace CompanyManagement.API.Repositories.Client
             _databaseContext = databaseContext;
         }
 
+        /// <inheritdoc/>
         public async Task<(int statusCode, string errorMessage)> Create(IEnumerable<ClientModel> clientModels)
         {
             using var dbContextTransaction = await _databaseContext.Database.BeginTransactionAsync();
