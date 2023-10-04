@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/CompanyManagement/CompanyManagement.API/Repositories/database.db
