@@ -12,7 +12,7 @@ namespace CompanyManagement.API.Repositories.Client
         }
 
         /// <inheritdoc/>
-        public async Task<(int statusCode, string errorMessage)> Create(IEnumerable<ClientModel> clientModels)
+        public async Task<(int statusCode, string errorMessage)> CreateAsync(IEnumerable<ClientModel> clientModels)
         {
             using var dbContextTransaction = await _databaseContext.Database.BeginTransactionAsync();
 

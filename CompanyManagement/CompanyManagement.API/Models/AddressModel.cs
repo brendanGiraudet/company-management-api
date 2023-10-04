@@ -13,8 +13,11 @@ namespace CompanyManagement.API.Models
         
         public string City { get; set; }
 
-        public AddressTypeModel AddressType { get; set; }
-        
-        public ClientModel Client { get; set; }
+        public string AddressTypeId { get; set; }
+
+        public AddressTypeModel? AddressType { get; set; }
+
+        public string ClientId { get; set; }
+        public ClientModel? Client { get; set; }
     }
 }
