@@ -13,7 +13,11 @@ namespace CompanyManagement.API.Services.Client
         }
 
         /// <inheritdoc/>
-        public Task<(int statusCode, string errorMessage)> CreateAsync(IEnumerable<ClientModel> clientModels)
+        public Task<(int statusCode, IEnumerable<ClientModel> createdClients)> CreateAsync(IEnumerable<ClientModel> clientModels)
         => _clientRepository.CreateAsync(clientModels);
+        
+        /// <inheritdoc/>
+        public Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync()
+        => _clientRepository.GetAsync();
     }
 }

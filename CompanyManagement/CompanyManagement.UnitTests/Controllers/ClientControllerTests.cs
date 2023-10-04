@@ -18,7 +18,7 @@ namespace CompanyManagement.UnitTests.Controllers
             // Arrange
             var service = new Mock<IClientService>();
             service.Setup(s => s.CreateAsync(It.IsAny<IEnumerable<ClientModel>>()))
-                .ReturnsAsync((StatusCodes.Status201Created, string.Empty));
+                .ReturnsAsync((StatusCodes.Status201Created, Enumerable.Empty<ClientModel>()));
             
             var controller = CreateClientController(service.Object);
             var clients = Enumerable.Empty<ClientModel>();
@@ -39,7 +39,7 @@ namespace CompanyManagement.UnitTests.Controllers
             // Arrange
             var service = new Mock<IClientService>();
             service.Setup(s => s.CreateAsync(It.IsAny<IEnumerable<ClientModel>>()))
-                .ReturnsAsync((StatusCodes.Status500InternalServerError, "errormessage"));
+                .ReturnsAsync((StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>()));
             
             var controller = CreateClientController(service.Object);
             var clients = Enumerable.Empty<ClientModel>();

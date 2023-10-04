@@ -20,7 +20,15 @@ namespace CompanyManagement.API.Controllers
         {
             var result = await _clientService.CreateAsync(clientModels);
 
-            return StatusCode(result.statusCode, result.errorMessage);
+            return StatusCode(result.statusCode, result.createdClients);
+        }
+        
+        [HttpGet(Name = "Get")]
+        public async Task<IActionResult> GetAsync()
+        {
+            var result = await _clientService.GetAsync();
+
+            return StatusCode(result.statusCode, result.clients);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CompanyManagement.API.Repositories.Client
         }
 
         /// <inheritdoc/>
-        public async Task<(int statusCode, string errorMessage)> CreateAsync(IEnumerable<ClientModel> clientModels)
+        public async Task<(int statusCode, IEnumerable<ClientModel> createdClients)> CreateAsync(IEnumerable<ClientModel> clientModels)
         {
             using var dbContextTransaction = await _databaseContext.Database.BeginTransactionAsync();
 
@@ -24,13 +24,26 @@ namespace CompanyManagement.API.Repositories.Client
 
                 await dbContextTransaction.CommitAsync();
 
-                return (StatusCodes.Status201Created, string.Empty);
+                return (StatusCodes.Status201Created, clientModels);
             }
             catch (Exception ex)
             {
                 await dbContextTransaction.RollbackAsync();
 
-                return (StatusCodes.Status500InternalServerError, ex.Message);
+                return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync()
+        {
+            try
+            {
+                return (StatusCodes.Status200OK, _databaseContext.Clients);
+            }
+            catch (Exception)
+            {
+                return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
             }
         }
     }
