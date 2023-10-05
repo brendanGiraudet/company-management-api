@@ -162,6 +162,148 @@ namespace CompanyManagement.UnitTests.Repositories
             Assert.NotNull(address);
             Assert.Equal(addressClientName, address.City);
         }
+        
+        [Fact]
+        public async Task ShouldHaveCreatedStatusCodeWhenCreateWithDuplicateClient()
+        {
+            // Arrange
+            var service = CreateClientRepository();
+
+            var addressTypeId = Guid.NewGuid().ToString();
+            
+            _databaseContext.AddressTypes.Add(new AddressTypeModel
+            {
+                Id = addressTypeId,
+                Label = "Facturation"
+            });
+
+            await _databaseContext.SaveChangesAsync();
+
+            var firstClientName = "test";
+            var addressClientName = "testaddress";
+            var clients = new List<ClientModel>() {
+                new ClientModel
+                {
+                    Email = firstClientName,
+                    Name = firstClientName,
+                    PhoneNumber = firstClientName,
+                    Addresses = new HashSet<AddressModel>()
+                    {
+                        new AddressModel
+                        {
+                            City = addressClientName,
+                            Street = addressClientName,
+                            ZipCode = addressClientName,
+                            AddressTypeId = addressTypeId
+                        }
+                    }
+                },
+                new ClientModel
+                {
+                    Email = firstClientName,
+                    Name = firstClientName,
+                    PhoneNumber = firstClientName,
+                    Addresses = new HashSet<AddressModel>()
+                    {
+                        new AddressModel
+                        {
+                            City = addressClientName,
+                            Street = addressClientName,
+                            ZipCode = addressClientName,
+                            AddressTypeId = addressTypeId
+                        }
+                    }
+                },
+            };
+
+            // Act
+            var response = await service.CreateAsync(clients);
+
+            // Assert
+            Assert.Equal(StatusCodes.Status201Created, response.statusCode);
+
+            var firstClient = await _databaseContext.Clients.FirstOrDefaultAsync(c => c.Name == firstClientName);
+            Assert.NotNull(firstClient);
+            Assert.Equal(firstClientName, firstClient.Name);
+
+            var address = await _databaseContext.Addresses.FirstOrDefaultAsync(a => a.ClientId == firstClient.Id);
+            Assert.NotNull(address);
+            Assert.Equal(addressClientName, address.City);
+
+            Assert.Equal(1, _databaseContext.Clients.Where(c => c.Name == firstClientName).Count());
+        }
+        
+        [Fact]
+        public async Task ShouldHaveCreatedStatusCodeWhenCreateWithExistedClient()
+        {
+            // Arrange
+            var service = CreateClientRepository();
+
+            var addressTypeId = Guid.NewGuid().ToString();
+            
+            _databaseContext.AddressTypes.Add(new AddressTypeModel
+            {
+                Id = addressTypeId,
+                Label = "Facturation"
+            });
+
+            var firstClientName = "test";
+            var addressClientName = "testaddress";
+
+            _databaseContext.Clients.Add(new ClientModel
+            {
+                Email = firstClientName,
+                Name = firstClientName,
+                PhoneNumber = firstClientName,
+                Addresses = new HashSet<AddressModel>()
+                    {
+                        new AddressModel
+                        {
+                            City = addressClientName,
+                            Street = addressClientName,
+                            ZipCode = addressClientName,
+                            AddressTypeId = addressTypeId
+                        }
+                    }
+            });
+
+            await _databaseContext.SaveChangesAsync();
+
+            var clients = new List<ClientModel>() { 
+                new ClientModel
+                {
+                    Email = firstClientName,
+                    Name = firstClientName,
+                    PhoneNumber = firstClientName,
+                    Addresses = new HashSet<AddressModel>()
+                    {
+                        new AddressModel
+                        {
+                            City = addressClientName,
+                            Street = addressClientName,
+                            ZipCode = addressClientName,
+                            AddressTypeId = addressTypeId
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var response = await service.CreateAsync(clients);
+
+            // Assert
+            Assert.Equal(StatusCodes.Status201Created, response.statusCode);
+
+            var firstClient = await _databaseContext.Clients.FirstOrDefaultAsync(c => c.Name == firstClientName);
+            Assert.NotNull(firstClient);
+            Assert.Equal(firstClientName, firstClient.Name);
+
+            var address = await _databaseContext.Addresses.FirstOrDefaultAsync(a => a.ClientId == firstClient.Id);
+            Assert.NotNull(address);
+            Assert.Equal(addressClientName, address.City);
+
+            Assert.Equal(1, _databaseContext.Clients.Where(c => c.Name == firstClientName).Count());
+        }
         #endregion
     }
 }

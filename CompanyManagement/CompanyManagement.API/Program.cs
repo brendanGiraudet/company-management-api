@@ -29,6 +29,8 @@ builder.Services.AddCors(c =>
 
 var app = builder.Build();
 
+app.ApplyDatabaseMigrations();
+
 app.UseCors();
 
 // Configure the HTTP request pipeline.

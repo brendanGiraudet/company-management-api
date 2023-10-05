@@ -1,4 +1,6 @@
-﻿using CompanyManagement.API.Models;
+﻿using CompanyManagement.API.EqualityComparers;
+using CompanyManagement.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyManagement.API.Repositories.Client
 {
@@ -18,13 +20,17 @@ namespace CompanyManagement.API.Repositories.Client
 
             try
             {
-                _databaseContext.Clients.AddRange(clientModels);
+                var newClients = clientModels.Distinct(new ClientEqualityComparer());
+
+                newClients = GetUnexistedClients(newClients);
+
+                _databaseContext.Clients.AddRange(newClients);
 
                 await _databaseContext.SaveChangesAsync();
 
                 await dbContextTransaction.CommitAsync();
 
-                return (StatusCodes.Status201Created, clientModels);
+                return (StatusCodes.Status201Created, newClients);
             }
             catch (Exception ex)
             {
@@ -32,6 +38,11 @@ namespace CompanyManagement.API.Repositories.Client
 
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
             }
+        }
+
+        private IEnumerable<ClientModel> GetUnexistedClients(IEnumerable<ClientModel> newClients)
+        {
+            return newClients.Where(c => _databaseContext.Clients.FirstOrDefaultAsync(f => f.Name == c.Name && f.Email == c.Email) == null);
         }
 
         /// <inheritdoc/>
