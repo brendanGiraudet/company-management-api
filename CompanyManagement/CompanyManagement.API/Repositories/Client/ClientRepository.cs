@@ -42,7 +42,14 @@ namespace CompanyManagement.API.Repositories.Client
 
         private IEnumerable<ClientModel> GetUnexistedClients(IEnumerable<ClientModel> newClients)
         {
-            return newClients.Where(c => _databaseContext.Clients.FirstOrDefaultAsync(f => f.Name == c.Name && f.Email == c.Email) == null);
+            var clients = new List<ClientModel>();
+
+            foreach (var client in newClients)
+            {
+                if(_databaseContext.Clients.FirstOrDefault(f => f.Name == client.Name && f.Email == client.Email) == null) clients.Add(client);
+            }
+            
+            return clients;
         }
 
         /// <inheritdoc/>
@@ -50,7 +57,7 @@ namespace CompanyManagement.API.Repositories.Client
         {
             try
             {
-                return (StatusCodes.Status200OK, _databaseContext.Clients);
+                return (StatusCodes.Status200OK, _databaseContext.Clients.Include(_ => _.Addresses).ToList());
             }
             catch (Exception)
             {

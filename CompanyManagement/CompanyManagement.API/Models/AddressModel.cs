@@ -25,7 +25,7 @@ namespace CompanyManagement.API.Models
         public AddressTypeModel? AddressType { get; set; }
 
         [JsonPropertyName("clientId")]
-        public string ClientId { get; set; }
+        public string? ClientId { get; set; }
 
         [JsonPropertyName("client")]
         public ClientModel? Client { get; set; }
