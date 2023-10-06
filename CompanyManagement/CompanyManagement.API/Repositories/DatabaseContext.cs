@@ -34,5 +34,10 @@ namespace CompanyManagement.API.Repositories
         /// Gets or sets the <see cref="DbSet{AddressTypeModel}"/>.
         /// </summary>
         public virtual DbSet<AddressTypeModel> AddressTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DbSet{ServiceModel}"/>.
+        /// </summary>
+        public virtual DbSet<ServiceModel> Services { get; set; }
     }
 }

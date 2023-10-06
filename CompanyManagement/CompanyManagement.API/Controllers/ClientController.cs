@@ -15,7 +15,7 @@ namespace CompanyManagement.API.Controllers
             _clientService = clientService;
         }
 
-        [HttpPost(Name = "Create")]
+        [HttpPost]
         public async Task<IActionResult> CreateAsync(IEnumerable<ClientModel> clientModels)
         {
             var result = await _clientService.CreateAsync(clientModels);
@@ -23,7 +23,7 @@ namespace CompanyManagement.API.Controllers
             return StatusCode(result.statusCode, result.createdClients);
         }
         
-        [HttpGet(Name = "Get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var result = await _clientService.GetAsync();

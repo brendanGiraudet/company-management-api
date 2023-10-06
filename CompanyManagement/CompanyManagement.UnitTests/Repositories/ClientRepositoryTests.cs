@@ -91,7 +91,7 @@ namespace CompanyManagement.UnitTests.Repositories
             // Assert
             Assert.Equal(StatusCodes.Status500InternalServerError, response.statusCode);
         }
-        
+
         [Fact]
         public async Task ShouldHaveInternalErrorStatusCodeWhenCreateWithMissingpropertyClient()
         {
@@ -119,7 +119,7 @@ namespace CompanyManagement.UnitTests.Repositories
             var service = CreateClientRepository();
 
             var addressTypeId = Guid.NewGuid().ToString();
-            
+
             _databaseContext.AddressTypes.Add(new AddressTypeModel
             {
                 Id = addressTypeId,
@@ -162,7 +162,7 @@ namespace CompanyManagement.UnitTests.Repositories
             Assert.NotNull(address);
             Assert.Equal(addressClientName, address.City);
         }
-        
+
         [Fact]
         public async Task ShouldHaveCreatedStatusCodeWhenCreateWithDuplicateClient()
         {
@@ -170,7 +170,7 @@ namespace CompanyManagement.UnitTests.Repositories
             var service = CreateClientRepository();
 
             var addressTypeId = Guid.NewGuid().ToString();
-            
+
             _databaseContext.AddressTypes.Add(new AddressTypeModel
             {
                 Id = addressTypeId,
@@ -232,7 +232,7 @@ namespace CompanyManagement.UnitTests.Repositories
 
             Assert.Equal(1, _databaseContext.Clients.Where(c => c.Name == firstClientName).Count());
         }
-        
+
         [Fact]
         public async Task ShouldHaveCreatedStatusCodeWhenCreateWithExistedClient()
         {
@@ -240,7 +240,7 @@ namespace CompanyManagement.UnitTests.Repositories
             var service = CreateClientRepository();
 
             var addressTypeId = Guid.NewGuid().ToString();
-            
+
             _databaseContext.AddressTypes.Add(new AddressTypeModel
             {
                 Id = addressTypeId,
@@ -269,7 +269,7 @@ namespace CompanyManagement.UnitTests.Repositories
 
             await _databaseContext.SaveChangesAsync();
 
-            var clients = new List<ClientModel>() { 
+            var clients = new List<ClientModel>() {
                 new ClientModel
                 {
                     Email = firstClientName,
