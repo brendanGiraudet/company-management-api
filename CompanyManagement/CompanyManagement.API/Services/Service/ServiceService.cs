@@ -14,5 +14,8 @@ namespace CompanyManagement.API.Services.Service
 
         /// <inheritdoc/>
         public async Task<(int statusCode, IEnumerable<ServiceModel> createdServices)> CreateAsync(IEnumerable<ServiceModel> serviceModels) => await _serviceRepository.CreateAsync(serviceModels);
+        
+        /// <inheritdoc/>
+        public async Task<(int statusCode, IEnumerable<ServiceModel> services)> GetAsync() => await _serviceRepository.GetAsync();
     }
 }

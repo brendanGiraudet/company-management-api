@@ -45,10 +45,23 @@ namespace CompanyManagement.API.Repositories.Service
 
             foreach (var service in newServices)
             {
-                if(_databaseContext.Services.FirstOrDefault(f => f.Name == service.Name) == null) services.Add(service);
+                if (_databaseContext.Services.FirstOrDefault(f => f.Name == service.Name) == null) services.Add(service);
             }
-            
+
             return services;
+        }
+
+        /// <inheritdoc/>
+        public async Task<(int statusCode, IEnumerable<ServiceModel> services)> GetAsync()
+        {
+            try
+            {
+                return (StatusCodes.Status200OK, _databaseContext.Services);
+            }
+            catch (Exception)
+            {
+                return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ServiceModel>());
+            }
         }
     }
 }

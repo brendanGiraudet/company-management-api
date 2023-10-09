@@ -16,11 +16,19 @@ namespace CompanyManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(IEnumerable<ServiceModel> ServiceModels)
+        public async Task<IActionResult> CreateAsync(IEnumerable<ServiceModel> serviceModels)
         {
-            var result = await _serviceService.CreateAsync(ServiceModels);
+            var result = await _serviceService.CreateAsync(serviceModels);
 
             return StatusCode(result.statusCode, result.createdServices);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
+        {
+            var result = await _serviceService.GetAsync();
+
+            return StatusCode(result.statusCode, result.services);
         }
     }
 }
