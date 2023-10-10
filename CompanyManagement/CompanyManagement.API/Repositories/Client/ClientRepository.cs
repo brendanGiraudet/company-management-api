@@ -106,5 +106,32 @@ namespace CompanyManagement.API.Repositories.Client
                 return (StatusCodes.Status500InternalServerError, null);
             }
         }
+        
+        /// <inheritdoc/>
+        public async Task<int> DeleteAsync(string id)
+        {
+             var clientResult = await GetAsync(id);
+
+            if (clientResult.client == null) return StatusCodes.Status204NoContent;
+
+            using var dbContextTransaction = _databaseContext.Database.BeginTransaction();
+
+            try
+            {
+                _databaseContext.Remove(clientResult.client);
+
+                await _databaseContext.SaveChangesAsync();
+
+                await dbContextTransaction.CommitAsync();
+
+                return StatusCodes.Status200OK;
+            }
+            catch (Exception)
+            {
+                await dbContextTransaction.RollbackAsync();
+
+                return StatusCodes.Status500InternalServerError;
+            }
+        }
     }
 }

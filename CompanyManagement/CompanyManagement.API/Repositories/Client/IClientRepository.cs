@@ -28,5 +28,11 @@ namespace CompanyManagement.API.Repositories.Client
         /// </summary>
         /// <returns></returns>
         Task<(int statusCode, ClientModel updatedClient)> UpdateAsync(ClientModel clientModel);
+
+        /// <summary>
+        /// Delete client
+        /// </summary>
+        /// <returns></returns>
+        Task<int> DeleteAsync(string id);
     }
 }
