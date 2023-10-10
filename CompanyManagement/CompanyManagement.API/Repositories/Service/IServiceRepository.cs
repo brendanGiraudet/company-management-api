@@ -17,5 +17,11 @@ namespace CompanyManagement.API.Repositories.Service
         /// </summary>
         /// <returns>Status code</returns>
         Task<(int statusCode, IEnumerable<ServiceModel> services)> GetAsync();
+        
+        /// <summary>
+        /// Update service
+        /// </summary>
+        /// <returns>Status code</returns>
+        Task<(int statusCode, ServiceModel? updatedService)> UpdateAsync(ServiceModel serviceModel);
     }
 }
