@@ -30,5 +30,13 @@ namespace CompanyManagement.API.Controllers
 
             return StatusCode(result.statusCode, result.clients);
         }
+        
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(ClientModel clientModel)
+        {
+            var result = await _clientService.UpdateAsync(clientModel);
+
+            return StatusCode(result.statusCode, result.updatedClient);
+        }
     }
 }

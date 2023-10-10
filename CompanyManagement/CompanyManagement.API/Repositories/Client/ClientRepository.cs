@@ -64,5 +64,26 @@ namespace CompanyManagement.API.Repositories.Client
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
             }
         }
+        
+        /// <inheritdoc/>
+        public async Task<(int statusCode, ClientModel updatedClient)> UpdateAsync(ClientModel clientModel)
+        {
+            using var dbContextTransaction = _databaseContext.Database.BeginTransaction();
+
+            try
+            {
+                _databaseContext.Update(clientModel);
+
+                await dbContextTransaction.CommitAsync();
+
+                return (StatusCodes.Status200OK, clientModel);
+            }
+            catch (Exception)
+            {
+                await dbContextTransaction.RollbackAsync();
+
+                return (StatusCodes.Status500InternalServerError, null);
+            }
+        }
     }
 }

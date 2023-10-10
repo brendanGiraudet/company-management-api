@@ -14,8 +14,14 @@ namespace CompanyManagement.API.Services.Client
         /// <summary>
         /// Get clients
         /// </summary>
-        /// <param name="clientModels"></param>
         /// <returns></returns>
         Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync();
+        
+        /// <summary>
+        /// Update client
+        /// </summary>
+        /// <param name="clientModel"></param>
+        /// <returns></returns>
+        Task<(int statusCode, ClientModel updatedClient)> UpdateAsync(ClientModel clientModel);
     }
 }
