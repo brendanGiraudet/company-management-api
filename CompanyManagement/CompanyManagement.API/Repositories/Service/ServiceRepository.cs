@@ -65,6 +65,19 @@ namespace CompanyManagement.API.Repositories.Service
         }
         
         /// <inheritdoc/>
+        public async Task<(int statusCode, ServiceModel? service)> GetAsync(string id)
+        {
+            try
+            {
+                return (StatusCodes.Status200OK, _databaseContext.Services.FirstOrDefault(s => s.Id == id));
+            }
+            catch (Exception)
+            {
+                return (StatusCodes.Status500InternalServerError, null);
+            }
+        }
+        
+        /// <inheritdoc/>
         public async Task<(int statusCode, ServiceModel? updatedService)> UpdateAsync(ServiceModel serviceModel)
         {
             using var dbContextTransaction = _databaseContext.Database.BeginTransaction();

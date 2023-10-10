@@ -31,6 +31,15 @@ namespace CompanyManagement.API.Controllers
             return StatusCode(result.statusCode, result.services);
         }
         
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetAsync(string id)
+        {
+            var result = await _serviceService.GetAsync(id);
+
+            return StatusCode(result.statusCode, result.service);
+        }
+        
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(ServiceModel serviceModel)
         {
