@@ -18,6 +18,12 @@ namespace CompanyManagement.API.Repositories.Client
         Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync();
         
         /// <summary>
+        /// Get client from database
+        /// </summary>
+        /// <returns></returns>
+        Task<(int statusCode, ClientModel? client)> GetAsync(string id);
+        
+        /// <summary>
         /// Update client
         /// </summary>
         /// <returns></returns>

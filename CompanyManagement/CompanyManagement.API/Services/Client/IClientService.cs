@@ -16,6 +16,12 @@ namespace CompanyManagement.API.Services.Client
         /// </summary>
         /// <returns></returns>
         Task<(int statusCode, IEnumerable<ClientModel> clients)> GetAsync();
+
+        /// <summary>
+        /// Get client
+        /// </summary>
+        /// <returns></returns>
+        Task<(int statusCode, ClientModel? client)> GetAsync(string id);
         
         /// <summary>
         /// Update client

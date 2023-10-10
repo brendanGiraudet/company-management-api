@@ -1,6 +1,7 @@
 ﻿using CompanyManagement.API.EqualityComparers;
 using CompanyManagement.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CompanyManagement.API.Repositories.Client
 {
@@ -57,11 +58,29 @@ namespace CompanyManagement.API.Repositories.Client
         {
             try
             {
-                return (StatusCodes.Status200OK, _databaseContext.Clients.Include(_ => _.Addresses).ToList());
+                return (StatusCodes.Status200OK, GetClients().ToList());
             }
             catch (Exception)
             {
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ClientModel>());
+            }
+        }
+
+        private IIncludableQueryable<ClientModel, HashSet<AddressModel>?> GetClients()
+        {
+            return _databaseContext.Clients.Include(_ => _.Addresses);
+        }
+
+        /// <inheritdoc/>
+        public async Task<(int statusCode, ClientModel? client)> GetAsync(string id)
+        {
+            try
+            {
+                return (StatusCodes.Status200OK, await GetClients().FirstOrDefaultAsync(c => c.Id == id));
+            }
+            catch (Exception)
+            {
+                return (StatusCodes.Status500InternalServerError, null);
             }
         }
         

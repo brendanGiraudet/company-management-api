@@ -21,6 +21,10 @@ namespace CompanyManagement.API.Services.Client
         => await _clientRepository.GetAsync();
         
         /// <inheritdoc/>
+        public async Task<(int statusCode, ClientModel? client)> GetAsync(string id)
+        => await _clientRepository.GetAsync(id);
+        
+        /// <inheritdoc/>
         public async Task<(int statusCode, ClientModel updatedClient)> UpdateAsync(ClientModel clientModel)
         => await _clientRepository.UpdateAsync(clientModel);
     }
