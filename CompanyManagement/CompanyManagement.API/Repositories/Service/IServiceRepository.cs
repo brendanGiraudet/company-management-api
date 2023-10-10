@@ -29,5 +29,12 @@ namespace CompanyManagement.API.Repositories.Service
         /// </summary>
         /// <returns>Status code</returns>
         Task<(int statusCode, ServiceModel? updatedService)> UpdateAsync(ServiceModel serviceModel);
+
+
+        /// <summary>
+        /// Delete service
+        /// </summary>
+        /// <returns>Status code</returns>
+        Task<int> DeleteAsync(string id);
     }
 }

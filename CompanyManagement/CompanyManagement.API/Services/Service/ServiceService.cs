@@ -23,5 +23,8 @@ namespace CompanyManagement.API.Services.Service
 
         /// <inheritdoc/>
         public async Task<(int statusCode, ServiceModel? updatedService)> UpdateAsync(ServiceModel serviceModel) => await _serviceRepository.UpdateAsync(serviceModel);
+
+        /// <inheritdoc/>
+        public async Task<int> DeleteAsync(string id) => await _serviceRepository.DeleteAsync(id);
     }
 }

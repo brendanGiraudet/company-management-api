@@ -47,5 +47,14 @@ namespace CompanyManagement.API.Controllers
 
             return StatusCode(result.statusCode, result.updatedService);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteAsync(string id)
+        {
+            var statusCode = await _serviceService.DeleteAsync(id);
+
+            return StatusCode(statusCode);
+        }
     }
 }

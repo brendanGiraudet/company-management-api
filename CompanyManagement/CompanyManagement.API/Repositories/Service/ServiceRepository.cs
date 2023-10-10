@@ -63,7 +63,7 @@ namespace CompanyManagement.API.Repositories.Service
                 return (StatusCodes.Status500InternalServerError, Enumerable.Empty<ServiceModel>());
             }
         }
-        
+
         /// <inheritdoc/>
         public async Task<(int statusCode, ServiceModel? service)> GetAsync(string id)
         {
@@ -76,7 +76,7 @@ namespace CompanyManagement.API.Repositories.Service
                 return (StatusCodes.Status500InternalServerError, null);
             }
         }
-        
+
         /// <inheritdoc/>
         public async Task<(int statusCode, ServiceModel? updatedService)> UpdateAsync(ServiceModel serviceModel)
         {
@@ -86,15 +86,44 @@ namespace CompanyManagement.API.Repositories.Service
             {
                 _databaseContext.Update(serviceModel);
 
+                await _databaseContext.SaveChangesAsync();
+
                 await dbContextTransaction.CommitAsync();
 
-                return (StatusCodes.Status200OK, serviceModel);
+                return (StatusCodes.Status201Created, serviceModel);
             }
             catch (Exception)
             {
                 await dbContextTransaction.RollbackAsync();
 
                 return (StatusCodes.Status500InternalServerError, null);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<int> DeleteAsync(string id)
+        {
+            var serviceResult = await GetAsync(id);
+
+            if (serviceResult.service == null) return StatusCodes.Status204NoContent;
+
+            using var dbContextTransaction = _databaseContext.Database.BeginTransaction();
+
+            try
+            {
+                _databaseContext.Remove(serviceResult.service);
+
+                await _databaseContext.SaveChangesAsync();
+
+                await dbContextTransaction.CommitAsync();
+
+                return StatusCodes.Status200OK;
+            }
+            catch (Exception)
+            {
+                await dbContextTransaction.RollbackAsync();
+
+                return StatusCodes.Status500InternalServerError;
             }
         }
     }

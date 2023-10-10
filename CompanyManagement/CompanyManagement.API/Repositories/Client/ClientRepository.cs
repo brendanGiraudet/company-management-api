@@ -93,6 +93,8 @@ namespace CompanyManagement.API.Repositories.Client
             {
                 _databaseContext.Update(clientModel);
 
+                await _databaseContext.SaveChangesAsync();
+
                 await dbContextTransaction.CommitAsync();
 
                 return (StatusCodes.Status200OK, clientModel);
