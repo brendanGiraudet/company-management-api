@@ -17,4 +17,7 @@ public class ServiceModel
 
     [JsonPropertyName("price")]
     public decimal Price { get; set; }
+    
+    [JsonPropertyName("bills")]
+    public HashSet<BillModel>? Bills { get; set; }
 }

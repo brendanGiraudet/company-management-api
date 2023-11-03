@@ -20,5 +20,8 @@ namespace CompanyManagement.API.Models
 
         [JsonPropertyName("addresses")]
         public HashSet<AddressModel>? Addresses { get; set; }
+
+        [JsonPropertyName("bills")]
+        public HashSet<BillModel>? Bills { get; set; }
     }
 }

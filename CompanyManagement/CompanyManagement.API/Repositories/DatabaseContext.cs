@@ -39,5 +39,10 @@ namespace CompanyManagement.API.Repositories
         /// Gets or sets the <see cref="DbSet{ServiceModel}"/>.
         /// </summary>
         public virtual DbSet<ServiceModel> Services { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the <see cref="DbSet{BillModel}"/>.
+        /// </summary>
+        public virtual DbSet<BillModel> Bills { get; set; }
     }
 }
